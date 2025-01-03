@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+    <!-- Google Fonts for Inter (including multiple weights) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+
+    <!-- Tailwind CSS -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+
+    <title>PrepMate {% block title %}{% endblock %}</title>
+</head>
+
+<body class="custom-bg sm:text-base font-inter">
+
+    <!-- Navbar -->
+
+    <div class="flex justify-center">
+        <!-- Navbar Links -->
+        <div class="flex space-x-4 mt-14 pl-custom">
+            <a class="text-black text-2xl hover:text-gray-800 font-semibold" href="/">Add</a>
+            <a class="text-black text-2xl hover:text-gray-800 font-semibold" href="/select">Select</a>
+            <a class="text-black text-2xl hover:text-gray-800 font-semibold" href="/list">List</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="">
+        {% block main %}{% endblock %}
+    </main>
+
+    <!-- Optionally include Bootstrap JS if needed on other pages -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>
+

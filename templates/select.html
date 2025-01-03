@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Select
+{% endblock %}
+
+{% block main %}
+
+<!-- Title-->
+
+<div class="flex justify-center mt-16">
+    <h1 class="w-80 h-20 bg-white rounded-lg shadow-md border-2 border-black flex justify-center items-center text-black font-bold text-3xl">
+      Select meals
+    </h1>
+</div>
+
+<!-- SELECT Table -->
+
+<form method="POST">
+    <div class="flex justify-center mt-14">
+        <div class="rounded-lg overflow-hidden border-2 border-black">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th class="custom-bg-blue px-4 py-2 w-48 border-b border-r border-black">Meals</th>
+                        <th class="custom-bg-blue px-4 py-2 w-48 border-b border-r border-black">Cook</th>
+                        <th class="custom-bg-blue px-4 py-2 w-48 border-b border-r border-black">Serving</th>
+                        <th class="custom-bg-blue px-4 py-2 w-48 border-b  border-black">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    {% for meal in meals %}
+                    <tr>
+                        <td class="custom-bg-blue px-4 py-1.5 w-48 border-b border-r border-black text-center">{{ meal.meal_name }} ( {{ meal.servings }} )</td>
+
+                        <td class="custom-bg-blue px-4 py-1.5 w-48 border-b border-r border-black text-center">
+                            <input type="checkbox" name="selected_meals" value="{{ meal.meal_name }}">
+                        </td>
+                        <td class="custom-bg-blue px-4 py-1.5 w-48 border-b border-r border-black text-center">
+                            <input type="number" class="pl-8 w-20 rounded focus:outline-none" name="selected_servings">
+                        </td>
+                        <td class="custom-bg-blue px-4 py-1.5 w-48 border-b border-black text-center">
+                            <input type="checkbox" name="delete_meals" value="{{ meal.meal_name }}">
+                        </td>
+                    </tr>
+                 
+            
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Submit -->
+
+    <div class="flex justify-center ">
+        <button type="submit" id="" class="items-center mt-4 mb-4 w-772 h-10 custom-bg-green rounded-lg shadow-md border-2 border-black text-xl font-bold text-black">
+            Submit
+        </button>
+    </div>
+</form>
+
+
+
+<!-- Dashboard Table -->
+
+<div class="flex flex-col mt-16 gap-12">
+    {% for meal_name, meal_info in recipe_data.items() %}
+    <div class="flex justify-center gap-13">
+
+        <div class="flex flex-col">
+            
+            <!-- Meal Name with Servings -->
+                    
+            <h1 class=" bg-white w-360 h-10 rounded-lg border-2 border-black shadow-md flex justify-center items-center font-bold">
+                    {{ meal_info['servings'] }}x  {{meal_name | capitalize }} 
+            </h1>
+
+            <!-- Table for Ingredients -->
+
+            <div class="mt-2 mb-5 rounded-lg overflow-hidden border-2 border-black">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th class="custom-bg-blue px-4 py-2 w-44 border-b border-r border-black">Ingredient</th>
+                            <th class="custom-bg-blue px-4 py-2 w-44 border-b border-black">Quantity</th>
+                        </tr>
+                    </thead>
+                
+
+                    <tbody>
+                        {% for ingredient in meal_info['ingredients'] %}
+                            <tr>
+                                <td class="custom-bg-blue px-4 py-1 w-44 border-b border-r border-black text-center">
+                                    {{ ingredient['ingredient_name'] | capitalize  }}
+                                </td>
+                                <td class="custom-bg-blue px-4 py-1 w-44 border-b  border-black text-center">
+                                    {{ ingredient['quantity'] }} {{ ingredient['unit'] }}
+                                </td>
+                            </tr>
+                        {% endfor %}    
+                    </tbody>     
+                </table>
+            </div>
+            
+        </div>
+            
+        <!-- Notes -->
+
+        
+        <div class="flex-col"> 
+
+            <!-- Notes Title -->
+
+            <h1 class=" bg-white w-360 h-10 rounded-lg border-2 border-black shadow-md flex justify-center items-center font-bold">
+                Notes
+            </h1>
+
+            <!-- Notes Textbox-->
+
+            {% for note in meal_info['notes'] %} 
+                <div class="mt-2 pl-2 pr-2 pt-2 pb-2 custom-bg-beige w-360 min-h rounded-lg border-2 border-black shadow-md flex justify-center">         
+                    <p>
+                        {{ note['note_text'] | replace("\n", "<br>") | safe if note['note_text'] else 'No notes found...' }}
+                    </p>
+                    
+                    
+                </div>
+            {% endfor %}
+        </div>  
+    </div> 
+    {% endfor %}
+</div>
+
+
+
+
+{% endblock %}

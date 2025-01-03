@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+<!-- Upper Half-->
+ <form method="POST">
+    <div class="mt-5 flex gap-40 justify-center">
+        <!-- Image-->
+        <img class="" src="/static/Pic.png" alt="Meal Image">
+
+        <!-- Right Container -->
+        <div class="flex flex-col justify-center">
+            <!--MEAL BlueBox-->
+            <div class="relative mb-4 w-96 h-24 custom-bg-blue rounded-lg shadow-md border-2 border-black">
+                <h3 class="absolute top-5 left-10 text-2xl font-bold text-black">Meal</h3>
+                <!--Center Inputfield-->
+                <div class="flex justify-center">
+                    <input class="absolute pl-2 top-13 rounded-md border-black border-2 w-80 focus:outline-none" type="text" id="#" name="meal_name" autocomplete="off" required>
+                </div>
+            </div>
+
+            <!--SERVINGS BlueBox-->
+            <div class="relative mb-4 w-96 h-24 custom-bg-blue rounded-lg shadow-md border-2 border-black">
+                <h3 class="absolute top-5 left-10 text-2xl font-bold text-black">Servings</h3>
+                <!--Center Inputfield-->
+                <div class="flex justify-center">
+                    <input class="absolute pl-2 top-13 rounded-md border-black border-2 w-80 focus:outline-none" type="number" min="1" id="#" name="servings" autocomplete="off" required>
+                </div>
+            </div>
+
+            <!--SERVINGS BlueBox-->
+            <div class="relative mb-4 w-96 h-24 custom-bg-blue rounded-lg shadow-md border-2 border-black">
+                <h3 class="absolute top-5 left-10 text-2xl font-bold text-black">Ingredient</h3>
+                <h3 class="absolute top-5 left-custom text-2xl font-bold text-black">Total</h3>
+                <h3 class="absolute top-5 left-custom1 text-2xl font-bold text-black">Unit</h3>
+                <!--Center Inputfield-->
+                <div class="flex justify-center gap-3 mt-13">
+                    <input class="pl-2 rounded-md border-black border-2 w-40 focus:outline-none" type="text" id="ingredient" name="ingredient" autocomplete="off" >
+                    <input class="pl-2 rounded-md border-black border-2 w-16 focus:outline-none" type="number" min="1" id="quantity" name="quantity" autocomplete="off">
+                    <select class="pl-2 rounded-md border-black border-2 w-16 focus:outline-none"id="unit" name="unit">
+                        <option disabled selected></option>
+                        <option>g</option>
+                        <option>ml</option>
+                        <option>tsp</option>
+                        <option>tbsp</option>
+                        <option>item</option>
+                    </select>
+                </div>
+            </div>
+
+            <!--Add Button GreenBox-->
+            <button type="button" id="add-ingredient" class="items-center mb-4 w-96 h-10 custom-bg-green rounded-lg shadow-md border-2 border-black text-xl font-bold text-black">
+                Add
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Half-->
+     
+    <!--Notes. Text-->
+    <div class="flex justify-center">
+        <h1 class="pr-custom mt-10 text-4xl text-white font-bold outline-1 ">Notes.</h1>
+    </div>
+
+
+    
+    <!-- Hidden inputs will be added here -->
+    <div id="hidden-ingredients"></div>
+
+
+
+    <!--2 Boxes-->
+    <div class="mt-2 flex justify-center gap-4">
+        <!--Notes Input-->
+        <textarea class="pl-2 pt-2 mb-4 w-670 h-450 custom-bg-beige rounded-lg shadow-md border-2 border-black focus:outline-none" type="text" name="notes"></textarea>
+        <div class="flex justify-center mb-4 w-250 h-450 custom-bg-beige rounded-lg shadow-md border-2 border-black">
+             <!--Hidden List-->
+             <ul class="list-disc pt-2 mb-4 text-xl text-black" id="list"></ul>
+         </div>
+    </div>
+
+    <!--Submit Button GreenBox-->
+    <div class="flex justify-center ">
+        <button type="submit" id="" class="items-center mb-4 w-938 h-10 custom-bg-green rounded-lg shadow-md border-2 border-black text-xl font-bold text-black">
+            Submit
+        </button>
+    </div>
+</form>
+
+<!-- Java Script-->
+<script>
+    document.getElementById("add-ingredient").addEventListener("click",function(){
+        //get values from input
+        const ingredient = document.getElementById("ingredient").value;
+        const quantity = document.getElementById("quantity").value;
+        const unit = document.getElementById("unit").value;
+
+        if (ingredient && quantity && unit) {
+            //find ul
+            const ingredientList = document.getElementById("list");
+            //create a new list
+            const listItem = document.createElement("li");
+            //add text
+            listItem.textContent = `${quantity} ${unit} of ${ingredient}`;
+            //append list to ul
+            ingredientList.appendChild(listItem)
+
+            // Select the hidden ingredients div
+            const hiddenIngredients = document.getElementById("hidden-ingredients");
+
+            // Hidden input for ingredient
+            const ingredientInput = document.createElement("input");
+            ingredientInput.type = "hidden";
+            ingredientInput.name = "ingredients[]"; // For ingredients
+            ingredientInput.value = ingredient;
+            hiddenIngredients.appendChild(ingredientInput);
+
+            // Hidden input for quantity
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "hidden";
+            quantityInput.name = "quantities[]"; // For quantities
+            quantityInput.value = quantity;
+            hiddenIngredients.appendChild(quantityInput);
+
+            // Hidden input for unit
+            const unitInput = document.createElement("input");
+            unitInput.type = "hidden";
+            unitInput.name = "units[]"; // For units
+            unitInput.value = unit;
+            hiddenIngredients.appendChild(unitInput);
+
+
+
+             //clear input after adding
+            document.getElementById("ingredient").value = "";
+            document.getElementById("quantity").value = "";
+            document.getElementById("unit").selectedIndex = 0;
+
+
+        }
+        else{
+            alert("Please fill in all fields");
+        }
+    });
+</script>
+
+{% endblock %}
